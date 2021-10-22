@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="wrapper"></div>
+    <script>
+      function createDomFromStr(str) {
+        let div = document.createElement("div")
+        div.innerHTML = str
+        return div
+      }
+      class LikeBtn {
+        constructor() {
+          this.state = {
+            isLiked : false
+          }
+        }
+        changeText() {
+          const likeText = this.el.querySelector(".liketext")
+          this.state.isLiked = !this.state.isLiked
+          console.log(this.el)
+          likeText.innerHTML = this.state.isLiked ? "取消" : "点赞"
+        }
+        render() {
+          this.el = createDomFromStr(`
+            <button class="likebtn">
+              <span class="liketext">点赞</span>
+            </button>
+          `)
+          this.el.addEventListener("click", this.changeText.bind(this))
+          return this.el
+        }
+      }
+      const wrapper = document.querySelector(".wrapper")
+      let likeBtn = new LikeBtn()
+      wrapper.appendChild(likeBtn.render())
+    </script>
+  </body>
+</html>
