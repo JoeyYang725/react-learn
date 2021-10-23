@@ -1,5 +1,5 @@
 # react-learn
-> Joey's react learn demos and notes,基于[react.js小书](https://hyf.js.org/react-naive-book)整理学习笔记，记录学习心得。（由于markdown局限性，当前文档不完整，完整版移步[语雀】(https://www.yuque.com/yuqueyonghugeabue/edv3vd/eui517)查看）
+> Joey's react learn demos and notes,基于[react.js小书](https://hyf.js.org/react-naive-book)整理学习笔记，记录学习心得。（由于markdown局限性，当前文档不完整，完整版移步[语雀](https://www.yuque.com/yuqueyonghugeabue/edv3vd/eui517)查看）
 ## 前三节（前端组件化）讲了什么？
 作为react入门教程，作者并没有一上来就讲解react的语法，而是先以一个点赞按钮为例，给读者强调了前端组件化的重要性，并且循序渐进地讲解了具体做法：
 1. 按照DOM开发的思路，如果需要一个点赞按钮（likeButton），只要直接在HTML中插入相关的元素，并为其添加点击监听即可。但是这样的做法不具备任何可复用性，也不能称之为“组件”。所以我们创建一个’likeButton’类，并为其添加一个render方法，帮助我们向页面中插入一个DOM元素，并添加监听。这样我们就实现了一个简单的组件，如果要复用的话，只需要实例化并调用实例方法即可。
@@ -26,3 +26,9 @@ class Header extends Component {
   }
 }
 ```
+## 关于自定义组件与事件监听
+* 自定义组件标签必须以大写字母开头，以区分于HTML标签。
+* 添加监听很容易，直接添加onClick之类以on开头的属性即可：这是react重写的、兼容所有浏览器的API。
+* 没有经过处理的话，这些监听只能加在DOM元素上，不能添加在自定义组件上。
+* 所有的监听都内置了event对象。
+* **关于事件的this** react调用你传给他的函数的时候，是直接调用的，而不是通过对象方法的方式调用的，所以不能直接拿到this对象，而需要用bind将函数绑定到当前this上。
