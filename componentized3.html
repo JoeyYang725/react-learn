@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="wrapper"></div>
+    <script>
+      class Component {
+        constructor(props = {}) {
+          this.props = props
+        }
+        createDomFromStr(str) {
+          let div = document.createElement("div")
+          div.innerHTML = str
+          return div
+        }
+        setState(newState) {
+          const oldEl = this.el
+          this.state = newState
+          this.el = this.renderDom()
+          if (this.onChangeState) this.onChangeState(oldEl, this.el)
+        }
+        renderDom() {
+          this.el = this.createDomFromStr(this.render())
+          if (this.onClick) {
+            this.el.addEventListener("click", this.onClick.bind(this))
+          }
+          return this.el
+        }
+      }
+      class LikeBtn extends Component {
+        constructor(props) {
+          super(props)
+          this.state = {
+            isLiked: true,
+          }
+        }
+        onClick() {
+          this.setState({
+            isLiked: !this.state.isLiked,
+          })
+        }
+        render() {
+          return `
+          <button class="likebtn">
+            <span class="liketext">${this.state.isLiked?'点赞':'取消'}</span>
+          </button>
+          `
+        }
+      }
+      const mount = function (component, wrapper) {
+        wrapper.appendChild(component.renderDom())
+        component.onChangeState = (oldEl, newEl) => {
+          wrapper.insertBefore(newEl, oldEl)
+          wrapper.removeChild(oldEl)
+        }
+      }
+      const wrapper = document.querySelector(".wrapper")
+      let likeBtn = new LikeBtn()
+      mount(likeBtn, wrapper)
+    </script>
+  </body>
+</html>
