@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="wrapper"></div>
+    <script>
+      class LikeBtn {
+        constructor() {
+          this.state = {
+            isLiked: false,
+            el: null,
+          }
+        }
+        createDomFromStr(str) {
+          let div = document.createElement("div")
+          div.innerHTML = str
+          return div
+        }
+        setState(newState) {
+          const oldEl = this.el
+          this.state = newState
+          this.el = this.render()
+          this.onChangeState(oldEl, this.el)
+        }
+        changeText() {
+          this.setState({
+            isLiked: !this.state.isLiked,
+          })
+        }
+        render() {
+          this.el = this.createDomFromStr(`
+            <button class="likebtn">
+              <span class="liketext">${this.state.isLiked?'取消':'点赞'}</span>
+            </button>
+          `)
+          this.el.addEventListener("click", this.changeText.bind(this))
+          return this.el
+        }
+      }
+      const wrapper = document.querySelector(".wrapper")
+      let likeBtn = new LikeBtn()
+      wrapper.appendChild(likeBtn.render())
+      likeBtn.onChangeState = (oldEl, newEl) => {
+          wrapper.insertBefore(newEl, oldEl)
+          wrapper.removeChild(oldEl)
+      }
+    </script>
+  </body>
+</html>
