@@ -9,25 +9,24 @@
   <body>
     <div class="wrapper"></div>
     <script>
-      function createDomFromStr(str) {
-        let div = document.createElement("div")
-        div.innerHTML = str
-        return div
-      }
       class LikeBtn {
         constructor() {
           this.state = {
-            isLiked : false
+            isLiked: false,
           }
+        }
+        createDomFromStr(str) {
+          let div = document.createElement("div")
+          div.innerHTML = str
+          return div
         }
         changeText() {
           const likeText = this.el.querySelector(".liketext")
           this.state.isLiked = !this.state.isLiked
-          console.log(this.el)
           likeText.innerHTML = this.state.isLiked ? "取消" : "点赞"
         }
         render() {
-          this.el = createDomFromStr(`
+          this.el = this.createDomFromStr(`
             <button class="likebtn">
               <span class="liketext">点赞</span>
             </button>
