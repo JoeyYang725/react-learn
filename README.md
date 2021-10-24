@@ -32,3 +32,24 @@ class Header extends Component {
 * 没有经过处理的话，这些监听只能加在HTML元素上，不能添加在自定义组件上。
 * 所有的监听都内置了event对象。
 * **关于事件的this** react调用你传给他的函数的时候，是直接调用的，而不是通过对象方法的方式调用的，所以不能直接拿到this对象，而需要用bind将函数绑定到当前this上。
+## 关于state和props
+### state和setState
+* state用于维护状态（数据），以作为视图的数据来源。修改state必须用setState，这是因为：每次修改state，reate内部都需要执行render函数去更新视图，而只有用setState改变state，react才能知道“state变化了”
+* setState是异步执行的，所以如果想要在setState之后获取新的state会失败。该场景下可以把一个函数作为setState的参数，并且该回调的参数是preState（即更新后的状态），在回调中即可获取最新state
+* 异步执行的好处是：多次setState，一次reRender。
+### props
+* 可以给组件类添加一个静态属性 defaultProps，作为props默认值，以供组件在没有props时使用
+* props不可改变
+* 可以通过父组件的setState触发父组件state（子组件props）的改变和重新渲染，即可重新向子组件传入新的props
+### 区分state和props
+* state用于控制自身：自身组件内初始化，自身组件内可改变，外部不可改变
+* props是外部传入的数据，自身不可改变。
+* 尽量多用props，尽量少用state：没有state的叫做无状态组件，反之叫有状态组件。无状态组件可以降低代码维护难度，增加可维护性。无状态组件可以采用函数的方式来编写（函数式组件）
+```javascript
+const HelloWorld = (props) => {
+  const sayHi = (event) => alert('Hello World')
+  return (
+    <div onClick={sayHi}>Hello World</div>
+  )
+}
+```
