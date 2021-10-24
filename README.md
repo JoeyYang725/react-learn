@@ -57,3 +57,30 @@ const HelloWorld = (props) => {
 * React中没有数据双向绑定，解决办法：给输入框的值绑定为state中的值，并且给输入框绑定onChange监听，变化时调用setState（其实Vue数据双向绑定内部就是这么做的）。
 * 这样的表单组件（值与state同步）称为受控组件，因为其值受react中的state控制；如果表单的值由DOM自己处理，react用ref来获取其值，那么该组件称为非受控组件。
 * 兄弟组件传值：可以利用父组件传递。
+## 关于生命周期函数
+### 挂载阶段
+* constructor: state初始化
+* componentWillMount：ajax、设置定时器等
+* render：挂载、渲染
+* componentDidMount：真实DOM的操作
+### 更新阶段
+* shouldComponentUpdate(nextProps, nextState)：你可以通过这个方法控制组件是否重新渲染。如果返回 false 组件就不会重新渲染。这个生命周期在 React.js 性能优化上非常有用。
+* componentWillReceiveProps(nextProps)：组件从父组件接收到新的 props 之前调用。
+* componentWillUpdate()：组件开始重新渲染之前调用。
+* componentDidUpdate()：组件重新渲染并且把更改变更到真实的 DOM 以后调用。
+### 销毁阶段
+componentWillUnmount：定时器的清理等
+## 代码规范建议
+### 方法的命名
+* 组件的私有方法都用 _ 开头
+* 所有事件监听的方法都用 handle 开头
+* 把事件监听方法传给组件的时候，属性名用 on 开头
+### 组件内容编写顺序
+1. static 开头的类属性，如 defaultProps、propTypes。
+2. 构造函数，constructor。
+3. getter/setter（还不了解的同学可以暂时忽略）。
+4. 组件生命周期。
+5. _ 开头的私有方法。
+6. 事件监听方法，handle*。
+7. render\*开头的方法，有时候 render() 方法里面的内容会分开到不同函数里面进行，这些函数都以 render\* 开头。
+8. render() 方法。
